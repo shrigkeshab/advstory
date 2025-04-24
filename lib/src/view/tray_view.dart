@@ -23,6 +23,7 @@ class TrayView extends StatefulWidget {
     required this.style,
     required this.buildStoryOnTrayScroll,
     required this.trayBuilder,
+    required this.storyCount,
     Key? key,
   }) : super(key: key);
 
@@ -40,6 +41,7 @@ class TrayView extends StatefulWidget {
 
   /// {@macro advstory.style}
   final AdvStoryStyle style;
+  final int storyCount;
 
   /// {@macro advstory.trayBuilder}
   final TrayBuilder trayBuilder;
@@ -190,6 +192,9 @@ class _TrayViewState extends State<TrayView> with TickerProviderStateMixin {
       child: ListView.separated(
         padding: widget.style.trayListStyle.padding,
         scrollDirection: widget.style.trayListStyle.direction,
+        physics: widget.storyCount == 1
+            ? const NeverScrollableScrollPhysics()
+            : AlwaysScrollableScrollPhysics(),
         itemCount: widget.controller.storyCount,
         itemBuilder: (context, index) {
           if (widget.buildStoryOnTrayScroll) {

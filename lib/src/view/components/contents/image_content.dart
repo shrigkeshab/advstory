@@ -82,20 +82,23 @@ class _ImageContentState extends StoryContentState<ImageContent> {
     }
 
     if (_imageProvider != null) {
-      return Container(
-        constraints: const BoxConstraints.expand(),
-        child: Image(
-          image: _imageProvider!,
-          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            return wasSynchronouslyLoaded
-                ? child
-                : AnimatedOpacity(
-                    opacity: frame != null ? 1 : 0,
-                    duration: const Duration(milliseconds: 300),
-                  );
-          },
-          fit: BoxFit.cover,
-          gaplessPlayback: true,
+      return Padding(
+        padding: const EdgeInsets.only(top: 50.0, bottom: 100.0),
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          child: Image(
+            image: _imageProvider!,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              return wasSynchronouslyLoaded
+                  ? child
+                  : AnimatedOpacity(
+                      opacity: frame != null ? 1 : 0,
+                      duration: const Duration(milliseconds: 300),
+                    );
+            },
+            fit: BoxFit.cover,
+            gaplessPlayback: true,
+          ),
         ),
       );
     }

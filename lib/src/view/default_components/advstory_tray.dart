@@ -46,6 +46,8 @@ class AdvStoryTray extends AnimatedTray {
     this.strokeWidth = 2,
     this.animationDuration = const Duration(milliseconds: 1200),
     double? borderRadius,
+    this.iconWidget,
+    this.isMyStory = false,
   })  : assert(
           (() => shape == BoxShape.circle ? size.width == size.height : true)(),
           'Size width and height must be equal for a circular tray',
@@ -90,6 +92,10 @@ class AdvStoryTray extends AnimatedTray {
 
   /// Rotate animation duration of the border.
   final Duration animationDuration;
+
+  final bool isMyStory;
+
+  final Widget? iconWidget;
 
   @override
   AnimatedTrayState<AdvStoryTray> createState() => _AdvStoryTrayState();
@@ -222,6 +228,13 @@ class _AdvStoryTrayState extends AnimatedTrayState<AdvStoryTray>
                   ),
                 ),
               ),
+              // if (widget.iconWidget != null) widget.iconWidget!,
+              if (widget.isMyStory && widget.iconWidget != null)
+                Positioned(
+                  bottom: 0,
+                  right: 2,
+                  child: widget.iconWidget!,
+                ),
             ],
           ),
         ),
