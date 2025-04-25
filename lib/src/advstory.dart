@@ -26,6 +26,7 @@ class AdvStory extends StatefulWidget {
     required this.storyCount,
     required this.storyBuilder,
     required this.trayBuilder,
+    this.trayScrollController,
     AdvStoryController? controller,
     this.buildStoryOnTrayScroll = true,
     this.preloadStory = true,
@@ -45,6 +46,7 @@ class AdvStory extends StatefulWidget {
     Key? key,
     required this.storyCount,
     required this.storyBuilder,
+    this.trayScrollController,
     this.preloadContent = true,
     this.preloadStory = true,
     this.style = const AdvStoryStyle(),
@@ -93,6 +95,8 @@ class AdvStory extends StatefulWidget {
   /// Each story must have a tray.
   /// {@endtemplate}
   final TrayBuilder? trayBuilder;
+
+  final ScrollController? trayScrollController;
 
   /// {@template advstory.buildStoryOnTrayScroll}
   /// Sets whether stories are build when tray list is scrolled or the tray is
@@ -205,6 +209,7 @@ class _AdvStoryState extends State<AdvStory> with TickerProviderStateMixin {
         preloadStory: widget.preloadStory,
         style: widget.style,
         trayBuilder: widget.trayBuilder!,
+        trayScrollController: widget.trayScrollController,
         storyCount: widget.storyCount,
       );
     }

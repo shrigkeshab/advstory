@@ -229,7 +229,7 @@ class _AdvStoryTrayState extends AnimatedTrayState<AdvStoryTray>
                 ),
               ),
               // if (widget.iconWidget != null) widget.iconWidget!,
-              if (widget.isMyStory && widget.iconWidget != null)
+              if (widget.isMyStory == true && widget.iconWidget != null)
                 Positioned(
                   bottom: 0,
                   right: 2,

@@ -28,6 +28,7 @@ class ImageContent extends ManagedContent {
     Widget? footer,
     Duration? timeout,
     Widget Function()? errorBuilder,
+    void Function(bool)? onSeenCallback,
     Key? key,
   }) : super(
           url: url,
@@ -38,6 +39,7 @@ class ImageContent extends ManagedContent {
           timeout: timeout,
           errorBuiler: errorBuilder,
           key: key,
+          onSeenCallback: onSeenCallback,
         );
 
   /// Skip duration of the content.
@@ -72,6 +74,7 @@ class _ImageContentState extends StoryContentState<ImageContent> {
     });
     setState(() {
       _imageProvider = imageProvider;
+      widget.onSeenCallback?.call(true);
     });
   }
 

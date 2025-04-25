@@ -33,6 +33,7 @@ class VideoContent extends ManagedContent {
     Widget? footer,
     Duration? timeout,
     Widget Function()? errorBuilder,
+    void Function(bool)? onSeenCallback,
     Key? key,
   }) : super(
           url: url,
@@ -43,6 +44,7 @@ class VideoContent extends ManagedContent {
           timeout: timeout,
           errorBuiler: errorBuilder,
           key: key,
+          onSeenCallback: onSeenCallback,
         );
 
   @override
@@ -84,10 +86,16 @@ class _VideoContentState extends StoryContentState<VideoContent> {
     }
 
     if (_videoController?.value.isInitialized == true) {
-      return Center(
-        child: AspectRatio(
-          aspectRatio: _videoController!.value.aspectRatio,
-          child: VideoPlayer(_videoController!),
+      return Padding(
+        padding: const EdgeInsets.only(top: 50.0, bottom: 100.0),
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          child: Center(
+            child: AspectRatio(
+              aspectRatio: _videoController!.value.aspectRatio,
+              child: VideoPlayer(_videoController!),
+            ),
+          ),
         ),
       );
     }
@@ -97,6 +105,8 @@ class _VideoContentState extends StoryContentState<VideoContent> {
 
   @override
   void onStart() {
+    widget.onSeenCallback?.call(true);
+
     _videoController?.play();
   }
 
