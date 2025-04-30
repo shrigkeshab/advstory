@@ -6,7 +6,8 @@ import 'package:advstory/src/view/components/tray/animated_tray.dart';
 import 'package:flutter/material.dart';
 
 /// The builder function that will be called to build story content.
-typedef ContentBuilder = AdvStoryContent Function(int contentIndex);
+typedef ContentBuilder = AdvStoryContent Function(
+    int contentIndex, int? actualIndex);
 
 /// The builder function that will be called to build a [Story].
 typedef StoryBuilder = FutureOr<Story> Function(int storyIndex);

@@ -33,14 +33,15 @@ class _StoryViewState extends State<StoryView> {
 
   @override
   void dispose() {
-    _provider!.controller.notifyListeners(StoryEvent.close);
-    if (_provider!.hasTrays && _provider!.style.hideBars) {
-      SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.manual,
-        overlays: SystemUiOverlay.values,
-      );
+    if (mounted) {
+      _provider!.controller.notifyListeners(StoryEvent.close);
+      if (_provider!.hasTrays && _provider!.style.hideBars) {
+        SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.manual,
+          overlays: SystemUiOverlay.values,
+        );
+      }
     }
-
     super.dispose();
   }
 

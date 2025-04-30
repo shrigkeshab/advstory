@@ -149,7 +149,7 @@ class _TrayViewState extends State<TrayView> with TickerProviderStateMixin {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (isAnimated) {
         final story = await widget.buildHelper.buildStory(pos.story);
-        final content = story.contentBuilder(0);
+        final content = story.contentBuilder(0, null);
 
         if (content is! SimpleCustomContent) {
           // Handle jumps before story view opens

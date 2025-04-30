@@ -54,6 +54,9 @@ class ContentViewState extends State<ContentView> {
     );
     _provider!.controller
         .setContentController(_pageController!, widget.storyIndex);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _onPageChanged(_pageController!.initialPage);
+    });
 
     super.didChangeDependencies();
   }
@@ -147,6 +150,16 @@ class ContentViewState extends State<ContentView> {
     }
   }
 
+  int _currentPage = -1;
+
+  void _onPageChanged(int page) {
+    if (page != _currentPage) {
+      _currentPage = page;
+
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,8 +179,10 @@ class ContentViewState extends State<ContentView> {
               controller: _pageController,
               itemCount: widget.story.contentCount,
               physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: _onPageChanged,
               itemBuilder: (context, index) {
-                final content = widget.story.contentBuilder(index);
+                final content = widget.story
+                    .contentBuilder(index, _currentPage < 0 ? 0 : _currentPage);
 
                 return Stack(
                   children: [
