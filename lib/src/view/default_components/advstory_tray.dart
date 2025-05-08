@@ -30,6 +30,7 @@ class AdvStoryTray extends AnimatedTray {
     Key? key,
     required this.url,
     this.username,
+    // this.onTap,
     this.size = const Size(80, 80),
     this.shimmerStyle = const ShimmerStyle(),
     this.shape = BoxShape.circle,
@@ -96,6 +97,8 @@ class AdvStoryTray extends AnimatedTray {
   final bool isMyStory;
 
   final Widget? iconWidget;
+
+  // final void Function()? onTap;
 
   @override
   AnimatedTrayState<AdvStoryTray> createState() => _AdvStoryTrayState();
@@ -167,85 +170,89 @@ class _AdvStoryTrayState extends AnimatedTrayState<AdvStoryTray>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: widget.size.width,
-          height: widget.size.height,
-          child: Stack(
-            children: [
-              CustomPaint(
-                painter: AnimatedBorderPainter(
-                  gradientColors: _gradientColors,
-                  gapSize: widget.gapSize,
-                  radius: widget.shape == BoxShape.circle
-                      ? widget.size.width
-                      : widget.borderRadius,
-                  strokeWidth: widget.strokeWidth,
-                  animation: CurvedAnimation(
-                    parent: Tween(begin: 0.0, end: 1.0).animate(
-                      _rotationController,
+    return GestureDetector(
+      // onTap: widget.onTap,
+      child: Column(
+        children: [
+          SizedBox(
+            width: widget.size.width,
+            height: widget.size.height,
+            child: Stack(
+              children: [
+                CustomPaint(
+                  painter: AnimatedBorderPainter(
+                    gradientColors: _gradientColors,
+                    gapSize: widget.gapSize,
+                    radius: widget.shape == BoxShape.circle
+                        ? widget.size.width
+                        : widget.borderRadius,
+                    strokeWidth: widget.strokeWidth,
+                    animation: CurvedAnimation(
+                      parent: Tween(begin: 0.0, end: 1.0).animate(
+                        _rotationController,
+                      ),
+                      curve: Curves.slowMiddle,
                     ),
-                    curve: Curves.slowMiddle,
+                  ),
+                  child: SizedBox(
+                    width: widget.size.width,
+                    height: widget.size.height,
                   ),
                 ),
-                child: SizedBox(
-                  width: widget.size.width,
-                  height: widget.size.height,
-                ),
-              ),
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    widget.borderRadius - (widget.strokeWidth + widget.gapSize),
-                  ),
-                  child: Image.network(
-                    widget.url,
-                    width: widget.size.width -
-                        (widget.gapSize + widget.strokeWidth) * 2,
-                    height: widget.size.height -
-                        (widget.gapSize + widget.strokeWidth) * 2,
-                    fit: BoxFit.cover,
-                    frameBuilder: (context, child, frame, _) {
-                      return frame != null
-                          ? TweenAnimationBuilder<double>(
-                              tween: Tween<double>(begin: .1, end: 1),
-                              curve: Curves.ease,
-                              duration: const Duration(milliseconds: 300),
-                              builder:
-                                  (BuildContext context, double opacity, _) {
-                                return Opacity(
-                                  opacity: opacity,
-                                  child: child,
-                                );
-                              },
-                            )
-                          : Shimmer(style: widget.shimmerStyle);
-                    },
-                    errorBuilder: (_, __, ___) {
-                      return const Icon(Icons.error);
-                    },
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      widget.borderRadius -
+                          (widget.strokeWidth + widget.gapSize),
+                    ),
+                    child: Image.network(
+                      widget.url,
+                      width: widget.size.width -
+                          (widget.gapSize + widget.strokeWidth) * 2,
+                      height: widget.size.height -
+                          (widget.gapSize + widget.strokeWidth) * 2,
+                      fit: BoxFit.cover,
+                      frameBuilder: (context, child, frame, _) {
+                        return frame != null
+                            ? TweenAnimationBuilder<double>(
+                                tween: Tween<double>(begin: .1, end: 1),
+                                curve: Curves.ease,
+                                duration: const Duration(milliseconds: 300),
+                                builder:
+                                    (BuildContext context, double opacity, _) {
+                                  return Opacity(
+                                    opacity: opacity,
+                                    child: child,
+                                  );
+                                },
+                              )
+                            : Shimmer(style: widget.shimmerStyle);
+                      },
+                      errorBuilder: (_, __, ___) {
+                        return const Icon(Icons.error);
+                      },
+                    ),
                   ),
                 ),
-              ),
-              // if (widget.iconWidget != null) widget.iconWidget!,
-              if (widget.isMyStory == true && widget.iconWidget != null)
-                Positioned(
-                  bottom: 0,
-                  right: 2,
-                  child: widget.iconWidget!,
-                ),
-            ],
+                // if (widget.iconWidget != null) widget.iconWidget!,
+                if (widget.isMyStory == true && widget.iconWidget != null)
+                  Positioned(
+                    bottom: 0,
+                    right: 2,
+                    child: widget.iconWidget!,
+                  ),
+              ],
+            ),
           ),
-        ),
-        if (widget.username != null) ...[
-          const SizedBox(height: 5),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: widget.username,
-          ),
+          if (widget.username != null) ...[
+            const SizedBox(height: 5),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: widget.username,
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

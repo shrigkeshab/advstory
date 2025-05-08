@@ -31,6 +31,7 @@ class AdvStory extends StatefulWidget {
     this.buildStoryOnTrayScroll = true,
     this.preloadStory = true,
     this.preloadContent = true,
+    this.onTap,
     this.style = const AdvStoryStyle(),
     Key? key,
   })  : storyController = controller,
@@ -51,6 +52,7 @@ class AdvStory extends StatefulWidget {
     this.preloadStory = true,
     this.style = const AdvStoryStyle(),
     required AdvStoryPlayerController controller,
+    required this.onTap,
   })  : hasTrays = false,
         buildStoryOnTrayScroll = false,
         trayBuilder = null,
@@ -139,6 +141,8 @@ class AdvStory extends StatefulWidget {
   /// {@endtemplate}
   final bool preloadContent;
 
+  final Future<String> Function()? onTap;
+
   @override
   State<AdvStory> createState() => _AdvStoryState();
 }
@@ -202,6 +206,7 @@ class _AdvStoryState extends State<AdvStory> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (widget.hasTrays) {
       return TrayView(
+        onTap: widget.onTap,
         buildHelper: _buildHelper,
         buildStoryOnTrayScroll: widget.buildStoryOnTrayScroll,
         controller: _controller,
